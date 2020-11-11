@@ -1,3 +1,4 @@
+import MoviePage from './pages/movieDetailsPage'
 import React from "react";
 import ReactDOM from "react-dom";
 import "../node_modules/bootstrap/dist/css/bootstrap.css";
@@ -89,7 +90,7 @@ const movies = [sample, sample, sample];
 const App = () => {
   return (
     <div className="jumbotron">
-      <HomePage movies={movies} />
+      <MoviePage movie={sample} />
     </div>
   );
 };
