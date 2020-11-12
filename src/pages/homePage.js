@@ -1,3 +1,4 @@
+import { getMovies } from "../api/tmdb-api";
 import React, { useState, useEffect } from "react";
 import StubAPI from "../api/stubAPI";
 import PageTemplate from '../components/templateMovieListPage'
@@ -5,14 +6,9 @@ import PageTemplate from '../components/templateMovieListPage'
 const MovieListPage = () => {
   const [movies, setMovies] = useState([]);
   useEffect(() => {
-    fetch(
-      `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&include_adult=false&page=1`
-    )
-      .then(res => res.json())
-      .then(json => json.results )
-      .then(movies => {
-        setMovies(movies);
-      });
+    getMovies().then(movies => {
+      setMovies(movies);
+    });
   }, []);
 
   const addToFavorites = movieId => {
