@@ -3,6 +3,7 @@ import Header from "../headerMovieList";
 import MovieList from "../movieList";
 import FilterControls from "../filterControls";
 
+
 const MovieListPageTemplate = ({movies, title, buttonHandler}) => {
   const [nameFilter, setNameFilter] = useState("");
   const [genreFilter, setGenreFilter] = useState("0");
