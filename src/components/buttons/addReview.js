@@ -1,14 +1,20 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-const AddReviewButton = () => {
+const ReviewButton = ({ movie }) => {
   return (
-    <button
-      type="button"
-      className="btn w-100 btn-primary"
+    <Link
+      className="btn w-100 btn-primary "
+      to={{
+        pathname: `/reviews/form`,
+        state: {
+          movie: movie
+        }
+      }}
     >
       Write a Review
-    </button>
+    </Link>
   );
 };
 
-export default AddReviewButton;
+export default ReviewButton;

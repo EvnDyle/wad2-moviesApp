@@ -1,11 +1,12 @@
 import React from "react";
 import PageTemplate from "../components/templateMoviePage";
+import ReviewForm from '../components/reviewForm'
 
 const ReviewFormPage = props => {
 
   return (
       <PageTemplate movie={props.location.state.movie}>
-          <h3>Placeholder for web form</h3>
+          <ReviewForm movie={props.location.state.movie} />
       </PageTemplate>
   );
 };
