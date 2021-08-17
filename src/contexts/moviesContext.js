@@ -12,27 +12,26 @@ const reducer = (state, action) => {
         ),
         upcoming: [...state.upcoming],
       };
-      case "add-to-watchlist":
-        return {
-          movies: state.movies.map((m) =>
-            m.id === action.payload.movie.id ? { ...m, watchlist: true } : m
-          ),
-          upcoming: [...state.upcoming],
-        };
+    case "add-to-watchlist":
+      return {
+        upcoming: state.upcoming.map((m) =>
+          m.id === action.payload.movie.id ? { ...m, watchlist: true } : m
+        ),
+        movies: [...state.movies],
+      }; 
     case "load":
       return { movies: action.payload.movies, upcoming: [...state.upcoming] };
-    case "upcoming":
-      return { upcoming: action.payload.movies, movies: [...state.movies] };  
+    case "load-upcoming":
+      return { upcoming: action.payload.movies, movies: [...state.movies] };
     case "add-review":
-        return {
-          movies: state.movies.map((m) =>
-            m.id === action.payload.movie.id
-              ? { ...m, review: action.payload.review }
-              : m
-          ),
-            upcoming: [...state.upcoming],
-        };
-        break;
+      return {
+        movies: state.movies.map((m) =>
+          m.id === action.payload.movie.id
+            ? { ...m, review: action.payload.review }
+            : m
+        ),
+        upcoming: [...state.upcoming],
+      };
     default:
       return state;
   }
@@ -53,7 +52,8 @@ const MoviesContextProvider = (props) => {
 
   const addReview = (movie, review) => {
     dispatch({ type: "add-review", payload: { movie, review } });
-  }; 
+  };
+
   useEffect(() => {
     getMovies().then((movies) => {
       dispatch({ type: "load", payload: { movies } });
@@ -63,7 +63,7 @@ const MoviesContextProvider = (props) => {
 
   useEffect(() => {
     getUpcoming().then((movies) => {
-      dispatch({ type: "upcoming", payload: { movies } });
+      dispatch({ type: "load-upcoming", payload: { movies } });
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -72,7 +72,6 @@ const MoviesContextProvider = (props) => {
     <MoviesContext.Provider
       value={{
         movies: state.movies,
-        favorites: state.favorites,
         upcoming: state.upcoming,
         addToFavorites: addToFavorites,
         addToWatchlist: addToWatchlist,
