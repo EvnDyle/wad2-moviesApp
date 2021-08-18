@@ -8,16 +8,30 @@ const reducer = (state, action) => {
     case "add-favorite":
       return {
         movies: state.movies.map((m) =>
-          m.id === action.payload.movie.id ? { ...m, favorite: true } : m
+          m.id === action.payload.movie.id ? { ...m, favorite: true, watchlist: false} : m
         ),
         upcoming: [...state.upcoming],
+        topRated: state.topRated.map((m) =>
+          m.id === action.payload.movie.id ? { ...m, favorite: true, watchlist: false } : m
+        ),
+      };
+    case "add-favorite-top-rated":
+      return {
+        topRated: state.topRated.map((m) =>
+          m.id === action.payload.movie.id ? { ...m, favorite: true, watchlist: false } : m
+        ),
+        upcoming: [...state.upcoming],
+        movies: state.movies.map((m) =>
+          m.id === action.payload.movie.id ? { ...m, favorite: true, watchlist: false } : m
+        ),
       };
     case "add-to-watchlist":
       return {
         upcoming: state.upcoming.map((m) =>
-          m.id === action.payload.movie.id ? { ...m, watchlist: true } : m
+          m.id === action.payload.movie.id ? { ...m, watchlist: true} : m
         ),
         movies: [...state.movies],
+        topRated: [...state.topRated],
       }; 
     case "load":
       return { movies: action.payload.movies, upcoming: [...state.upcoming], topRated: [...state.topRated] };
@@ -33,6 +47,7 @@ const reducer = (state, action) => {
             : m
         ),
         upcoming: [...state.upcoming],
+        topRated: [...state.topRated],
       };
     default:
       return state;
@@ -45,6 +60,11 @@ const MoviesContextProvider = (props) => {
   const addToFavorites = (movieId) => {
     const index = state.movies.map((m) => m.id).indexOf(movieId);
     dispatch({ type: "add-favorite", payload: { movie: state.movies[index] } });
+  };
+
+  const addToFavoritesTopRated = (movieId) => {
+    const index = state.movies.map((m) => m.id).indexOf(movieId);
+    dispatch({ type: "add-favorite-top-rated", payload: { movie: state.movies[index] } });
   };
 
   const addToWatchlist = (movieId) => {
@@ -84,6 +104,7 @@ const MoviesContextProvider = (props) => {
         upcoming: state.upcoming,
         topRated: state.topRated,
         addToFavorites: addToFavorites,
+        addToFavoritesTopRated: addToFavoritesTopRated,
         addToWatchlist: addToWatchlist,
         addReview: addReview,
       }}
